@@ -23,19 +23,17 @@ class TelegramServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if (! $this->isRunningInBotManStudio()) {
-            $this->loadDrivers();
+        $this->loadDrivers();
 
-            $this->publishes([
-                __DIR__.'/../../stubs/telegram.php' => config_path('botman/telegram.php'),
-            ]);
+        $this->publishes([
+            __DIR__.'/../../stubs/telegram.php' => config_path('botman/telegram.php'),
+        ]);
 
-            $this->mergeConfigFrom(__DIR__.'/../../stubs/telegram.php', 'botman.telegram');
+        $this->mergeConfigFrom(__DIR__.'/../../stubs/telegram.php', 'botman.telegram');
 
-            $this->commands([
-                TelegramRegisterCommand::class,
-            ]);
-        }
+        $this->commands([
+            TelegramRegisterCommand::class,
+        ]);
     }
 
     /**
@@ -50,13 +48,5 @@ class TelegramServiceProvider extends ServiceProvider
         DriverManager::loadDriver(TelegramContactDriver::class);
         DriverManager::loadDriver(TelegramPhotoDriver::class);
         DriverManager::loadDriver(TelegramVideoDriver::class);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function isRunningInBotManStudio()
-    {
-        return class_exists(StudioServiceProvider::class);
     }
 }
